@@ -5,9 +5,10 @@ import './App.css';
 let xRandomArr = [];
 let randomArr = [];
 
+let canvasSize = 640;
+let recSize = 8;
+
 function Canvas() {
-  let canvasSize = 640;
-  let recSize = 8;
 
   const [canvasProp, setCanvasProp] = useState({
     width: canvasSize,
@@ -30,6 +31,26 @@ function Canvas() {
       }
     }
     console.log(randomArr);
+
+    for (let i = 0; i < canvasSize; i += canvasSize/8) {
+      if (i != 0) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, canvasSize);
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 0; i < canvasSize; i += canvasSize/8) {
+      if (i != 0) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(canvasSize, i);
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+      }
+    }
   }, []);
 
   return <canvas ref={canvasRef} width={canvasProp.width} height={canvasProp.height} className='perlin-canvas'></canvas>
@@ -38,13 +59,17 @@ function Canvas() {
 
 function App() {
 
-  let seed = 72893747892;
-  let seedArr = [];
+  let seed = 800123107341;
+  let seedGrad = [];
 
-  for (let i = 0; i < 255; i++) {
-    if (seedArr.length < 255) seedArr.push(((seed*((Math.sqrt((i**15)))+1))%255).toFixed(0));
+  for (let i = 1; i < canvasSize; i++) {
+    if (seedGrad.length < canvasSize/recSize) {
+      let gradVector = ((seed*((Math.sqrt((i**(i))))+seed))%1000).toFixed(2);
+      if (i == 1) console.log(gradVector);
+      seedGrad.push(gradVector/1000);
+    }
   }
-  console.log(`seedArr: ${seedArr}`);
+  console.log(`seedGrad: ${seedGrad}`);
 
   return (
       <div className='app-container'>
@@ -53,7 +78,7 @@ function App() {
             data={[
               {
                 x: xRandomArr,
-                y: seedArr,
+                y: seedGrad,
                 type: 'scatter',
                 mode: 'lines',
                 line: {color: 'green'},

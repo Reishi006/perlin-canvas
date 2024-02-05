@@ -11,6 +11,8 @@ let seedGrad = [];
 let canvasSize = 640;
 let recSize = 8;
 
+let octavePointsArr = [];//.fill().map(() => Array(2));
+
 function Canvas() {
 
   const [canvasProp, setCanvasProp] = useState({
@@ -36,6 +38,7 @@ function Canvas() {
     console.log(randomArr);
 
     for (let i = 0; i < canvasSize; i += canvasSize/8) {
+      //console.log(`octavePointsArr ${octavePointsArr}`);
       if (i != 0) {
         ctx.beginPath();
         ctx.moveTo(i, 0);
@@ -54,6 +57,43 @@ function Canvas() {
         ctx.stroke();
       }
     }
+
+
+    for (let j = 0; j < canvasSize; j += canvasSize/8) {
+      for (let i = 0; i < canvasSize; i += canvasSize/8) {
+        if (i === 0 && octavePointsArr.length < 1) {
+          console.log(octavePointsArr);
+        }
+  
+        let topLeft = [i, j];
+        let topRight = [i + canvasSize/8, j];
+        let bottomRight = [i + canvasSize/8, j + canvasSize/8];
+        let bottomLeft = [i, j + canvasSize/8];
+  
+        octavePointsArr.push(topLeft); //top-left
+        octavePointsArr.push(topRight); //top-right
+        octavePointsArr.push(bottomRight); //bottom-right
+        octavePointsArr.push(bottomLeft); //bottom-left
+  
+        ctx.fillStyle = 'lightblue';
+        ctx.beginPath();
+        ctx.arc(topLeft[0], topLeft[1], 4, 0, 2 * Math.PI, true);
+        ctx.fill();
+  
+        ctx.beginPath();
+        ctx.arc(topRight[0], topRight[1], 4, 0, 2 * Math.PI, true);
+        ctx.fill();
+  
+        ctx.beginPath();
+        ctx.arc(bottomRight[0], bottomRight[1], 4, 0, 2 * Math.PI, true);
+        ctx.fill();
+  
+        ctx.beginPath();
+        ctx.arc(bottomLeft[0], bottomLeft[1], 4, 0, 2 * Math.PI, true);
+        ctx.fill();
+      }
+    }
+
   }, []);
 
   return <canvas ref={canvasRef} width={canvasProp.width} height={canvasProp.height} className='perlin-canvas'></canvas>

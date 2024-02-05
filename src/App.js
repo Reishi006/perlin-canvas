@@ -5,6 +5,9 @@ import './App.css';
 let xRandomArr = [];
 let randomArr = [];
 
+let seed = 800123107341; //467853987599; //800123107341
+let seedGrad = [];
+
 let canvasSize = 640;
 let recSize = 8;
 
@@ -58,15 +61,15 @@ function Canvas() {
 
 
 function App() {
+  let inc = 1;
+  let a = seed/500; // multiplier (congruence)
+  let gradVector = (a * seed + (inc - 1)) % (1000000000000);
 
-  let seed = 800123107341;
-  let seedGrad = [];
-
-  for (let i = 1; i < canvasSize; i++) {
+  for (let i = inc; i < canvasSize; i++) {
     if (seedGrad.length < canvasSize/recSize) {
-      let gradVector = ((seed*((Math.sqrt((i**(i))))+seed))%1000).toFixed(2);
+      gradVector = (a * gradVector + i) % (1000000000000); //( ( (seed + i) * ( ( Math.sqrt(i ** i) ) + seed ) ) % 1000 );
       if (i == 1) console.log(gradVector);
-      seedGrad.push(gradVector/1000);
+      seedGrad.push(gradVector/1000000000000);
     }
   }
   console.log(`seedGrad: ${seedGrad}`);

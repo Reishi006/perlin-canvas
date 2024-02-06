@@ -7,6 +7,7 @@ let randomArr = [];
 
 let seed = 800123107341; //467853987599; //800123107341
 let seedGrad = [];
+let seedGrad1D = [];
 
 let canvasSize = 640;
 let recSize = 8;
@@ -16,17 +17,20 @@ let normalizedPoints = [[0, 0], [1, 0], [1, 1], [0, 1],];
 let distanceVectors = [];
 let pixelSize = 1/( (canvasSize/recSize)/8 );
 
+let dotProduct = [];
+
 
 const distVectorLoop = () => {
   if (distanceVectors.length < 1) {
-    for (let i = 0; i <= 10; i += pixelSize*10) {
-      for (let j = 0; j <= 10; j += pixelSize*10) {
+    for (let i = 0; i < 10; i += pixelSize*10) {
+      for (let j = 0; j < 10; j += pixelSize*10) {
         calculateDistVec(Number((j/10).toFixed(1)), Number((i/10).toFixed(1)));
-        console.log(Number((j/10).toFixed(1)));
+        //console.log(Number((j/10).toFixed(1)));
       }
     }
   }
   console.log(`distanceVectors: ${distanceVectors.length}`);
+  console.log(distanceVectors);
 }
 
 const calculateDistVec = (x, y) => {
@@ -42,6 +46,21 @@ const calculateDistVec = (x, y) => {
 }
 
 distVectorLoop();
+
+const calculateDotProduct = () => {
+  for (let i = 0; i < canvasSize; i++) {
+    for (let j = 0; i < 400; i++) {
+      let dot = (distanceVectors[j][0] * seedGrad[i][0]) + (distanceVectors[j][1] * seedGrad[i][1]);
+      dotProduct.push(dot);
+    }
+  }
+
+  console.log(distanceVectors[1][0]);
+    console.log(seedGrad[0][0]);
+  console.log(`dotProduct: ${dotProduct}`);
+}
+
+
 
 
 function Canvas() {
@@ -136,19 +155,29 @@ function Canvas() {
 function App() {
   let inc = 1;
   let a = seed/500; // multiplier (congruence)
+  let b = seed/670; // multiplier for y
   let mod = 1000000000000; // modulo
-  let gradVector = (a * seed + (inc - 1)) % (mod);
+  let gradVectorX = (a * seed + (inc - 1)) % (mod);
+  let gradVectorY = (b * seed + (inc - 1)) % (mod);
 
   for (let i = inc; i < canvasSize; i++) {
-    if (seedGrad.length < canvasSize/recSize) {
-      gradVector = (a * gradVector + i) % (mod); //( ( (seed + i) * ( ( Math.sqrt(i ** i) ) + seed ) ) % 1000 );
+    if (seedGrad.length < canvasSize/(pixelSize*10)) {
+      gradVectorX = (a * gradVectorX + i) % (mod); //( ( (seed + i) * ( ( Math.sqrt(i ** i) ) + seed ) ) % 1000 );
+      gradVectorY = (b * gradVectorX + i) % (mod);
       if (i == 1) {
-        console.log(gradVector);
+        console.log(gradVectorX);
+        console.log(gradVectorY);
       }
-      seedGrad.push(gradVector/mod);
+      seedGrad.push([gradVectorX/mod, gradVectorY/mod]);
+      seedGrad1D.push(gradVectorX/mod);
     }
   }
-  console.log(`seedGrad: ${seedGrad}`);
+  console.log(`seedGrad: `);
+  console.log(seedGrad);
+  console.log(seedGrad.length);
+
+
+  calculateDotProduct();
 
   return (
       <div className='app-container'>
@@ -157,7 +186,7 @@ function App() {
             data={[
               {
                 x: xRandomArr,
-                y: seedGrad,
+                y: seedGrad1D,
                 type: 'scatter',
                 mode: 'lines',
                 line: {color: 'green'},

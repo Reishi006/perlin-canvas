@@ -19,6 +19,11 @@ let pixelSize = 1/( (canvasSize/recSize)/8 );
 
 let dotProduct = [];
 
+let colorValues = [];
+
+const handleColors = () => {
+  console.log(`%c colors!:`, `color: pink`);
+}
 
 const distVectorLoop = () => {
   if (distanceVectors.length < 1) {
@@ -48,16 +53,33 @@ const calculateDistVec = (x, y) => {
 distVectorLoop();
 
 const calculateDotProduct = () => {
-  for (let i = 0; i < canvasSize; i++) {
-    for (let j = 0; i < 400; i++) {
-      let dot = (distanceVectors[j][0] * seedGrad[i][0]) + (distanceVectors[j][1] * seedGrad[i][1]);
-      dotProduct.push(dot);
+  if (dotProduct.length < canvasSize * 400) {
+    for (let i = 0; i < canvasSize; i++) {
+      for (let j = 0; j < 400; j++) {
+        let dot = (distanceVectors[j]?.[0] * seedGrad[i]?.[0]) + (distanceVectors[j]?.[1] * seedGrad[i]?.[1]);
+        dotProduct.push(dot);
+      }
     }
   }
 
   console.log(distanceVectors[1][0]);
-    console.log(seedGrad[0][0]);
-  console.log(`dotProduct: ${dotProduct}`);
+  console.log(seedGrad[0][0]);
+  console.log((distanceVectors[1][0] * seedGrad[1][0]) + (distanceVectors[1][1] * seedGrad[1][1]));
+  console.log(dotProduct);
+}
+
+
+const interpolateDots = () => {
+  for (let i = 0; i < dotProduct.length; i += 4) {
+    let AB = dotProduct[i] + Number((pixelSize*10).toFixed(0)) * (dotProduct[i+1]);
+    let CD = dotProduct[i+3] + Number((pixelSize*10).toFixed(0)) * (dotProduct[i+2]);
+    let value = AB + Number((pixelSize*10).toFixed(0)) * (CD - AB)
+    colorValues.push(value);
+  }
+  console.log(`%c colorValues: `, `color: lightgreen`);
+  console.log(colorValues);
+
+  handleColors();
 }
 
 
@@ -72,7 +94,20 @@ function Canvas() {
 
 
   const canvasRef = useRef(null);
+
   useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    for (let i = 0; i < canvas.width; i++) {
+      for (let j = 0; j < canvas.height; j++) {
+        ctx.fillStyle = `rgb(${colorValues[j]*255}, 20, 20)`;
+        ctx.fillRect(i*recSize, j*recSize, recSize, recSize);
+      }
+    }
+  }, [handleColors]);
+
+  /* useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
@@ -146,7 +181,7 @@ function Canvas() {
       }
     }
 
-  }, []);
+  }, []); */
 
   return <canvas ref={canvasRef} width={canvasProp.width} height={canvasProp.height} className='perlin-canvas'></canvas>
 }
@@ -178,6 +213,8 @@ function App() {
 
 
   calculateDotProduct();
+
+  interpolateDots();
 
   return (
       <div className='app-container'>

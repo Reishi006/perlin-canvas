@@ -12,6 +12,37 @@ let canvasSize = 640;
 let recSize = 8;
 
 let octavePointsArr = [];//.fill().map(() => Array(2));
+let normalizedPoints = [[0, 0], [1, 0], [1, 1], [0, 1],];
+let distanceVectors = [];
+let pixelSize = 1/( (canvasSize/recSize)/8 );
+
+
+const distVectorLoop = () => {
+  if (distanceVectors.length < 1) {
+    for (let i = 0; i <= 10; i += pixelSize*10) {
+      for (let j = 0; j <= 10; j += pixelSize*10) {
+        calculateDistVec(Number((j/10).toFixed(1)), Number((i/10).toFixed(1)));
+        console.log(Number((j/10).toFixed(1)));
+      }
+    }
+  }
+  console.log(`distanceVectors: ${distanceVectors.length}`);
+}
+
+const calculateDistVec = (x, y) => {
+  let topLeft = [Math.abs(x - normalizedPoints[0][0]).toFixed(2), Math.abs(y - normalizedPoints[0][1]).toFixed(2)];
+  let topRight = [Math.abs(x - normalizedPoints[1][0]).toFixed(2), Math.abs(y - normalizedPoints[1][1]).toFixed(2)];
+  let bottomRight = [Math.abs(x - normalizedPoints[2][0]).toFixed(2), Math.abs(y - normalizedPoints[2][1]).toFixed(2)];
+  let bottomLeft = [Math.abs(x - normalizedPoints[3][0]).toFixed(2), Math.abs(y - normalizedPoints[3][1]).toFixed(2)];
+
+  distanceVectors.push(topLeft);
+  distanceVectors.push(topRight);
+  distanceVectors.push(bottomRight);
+  distanceVectors.push(bottomLeft);
+}
+
+distVectorLoop();
+
 
 function Canvas() {
 
@@ -64,6 +95,8 @@ function Canvas() {
         if (i === 0 && octavePointsArr.length < 1) {
           console.log(octavePointsArr);
         }
+
+        
   
         let topLeft = [i, j];
         let topRight = [i + canvasSize/8, j];
@@ -103,13 +136,16 @@ function Canvas() {
 function App() {
   let inc = 1;
   let a = seed/500; // multiplier (congruence)
-  let gradVector = (a * seed + (inc - 1)) % (1000000000000);
+  let mod = 1000000000000; // modulo
+  let gradVector = (a * seed + (inc - 1)) % (mod);
 
   for (let i = inc; i < canvasSize; i++) {
     if (seedGrad.length < canvasSize/recSize) {
-      gradVector = (a * gradVector + i) % (1000000000000); //( ( (seed + i) * ( ( Math.sqrt(i ** i) ) + seed ) ) % 1000 );
-      if (i == 1) console.log(gradVector);
-      seedGrad.push(gradVector/1000000000000);
+      gradVector = (a * gradVector + i) % (mod); //( ( (seed + i) * ( ( Math.sqrt(i ** i) ) + seed ) ) % 1000 );
+      if (i == 1) {
+        console.log(gradVector);
+      }
+      seedGrad.push(gradVector/mod);
     }
   }
   console.log(`seedGrad: ${seedGrad}`);

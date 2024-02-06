@@ -53,7 +53,7 @@ const calculateDistVec = (x, y) => {
 distVectorLoop();
 
 const calculateDotProduct = () => {
-  if (dotProduct.length < canvasSize * 400) {
+  if (dotProduct.length < canvasSize * canvasSize) {
     for (let i = 0; i < canvasSize; i++) {
       for (let j = 0; j < 400; j++) {
         let dot = (distanceVectors[j]?.[0] * seedGrad[i]?.[0]) + (distanceVectors[j]?.[1] * seedGrad[i]?.[1]);
@@ -70,10 +70,11 @@ const calculateDotProduct = () => {
 
 
 const interpolateDots = () => {
-  for (let i = 0; i < dotProduct.length; i += 4) {
+  for (let i = 0; i < dotProduct.length; i += 1) {
     let AB = dotProduct[i] + Number((pixelSize*10).toFixed(0)) * (dotProduct[i+1]);
     let CD = dotProduct[i+3] + Number((pixelSize*10).toFixed(0)) * (dotProduct[i+2]);
-    let value = AB + Number((pixelSize*10).toFixed(0)) * (CD - AB)
+    let value = AB + Number((pixelSize*10).toFixed(0)) * (CD - AB);
+    value = (value - 0) / (3 - 0);
     colorValues.push(value);
   }
   console.log(`%c colorValues: `, `color: lightgreen`);
@@ -101,13 +102,23 @@ function Canvas() {
 
     for (let i = 0; i < canvas.width; i++) {
       for (let j = 0; j < canvas.height; j++) {
-        ctx.fillStyle = `rgb(${colorValues[j]*255}, 20, 20)`;
+        /* if (colorValues[j] >= 0.8) {
+          ctx.fillStyle = 'rgb(220, 20, 20)';
+        } else if (colorValues[j] < 0.8 && colorValues[j] >= 0.4) {
+          ctx.fillStyle = 'rgb(120, 20, 20)';
+        } else if (colorValues[j] < 0.4) {
+          ctx.fillStyle = 'rgb(10, 20, 20)';
+        } */
+
+        ctx.fillStyle = `rgb(${colorValues[j*(i+1)] * 255}, 20, 20)`;
         ctx.fillRect(i*recSize, j*recSize, recSize, recSize);
       }
     }
+    console.log(colorValues[canvasSize]);
   }, [handleColors]);
 
-  /* useEffect(() => {
+  useEffect(() => {
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
@@ -116,8 +127,8 @@ function Canvas() {
         xRandomArr.push(j);
         let randomFill = Math.max((Math.random()*255) - 50, 0);
         if (i == 0 && randomArr.length < canvasSize) randomArr.push(randomFill);
-        ctx.fillStyle = `rgb(${randomFill}, 20, 20)`;
-        ctx.fillRect(i*recSize, j*recSize, recSize, recSize);
+        /* ctx.fillStyle = `rgb(${randomFill}, 20, 20)`;
+        ctx.fillRect(i*recSize, j*recSize, recSize, recSize); */
       }
     }
     console.log(randomArr);
@@ -181,7 +192,7 @@ function Canvas() {
       }
     }
 
-  }, []); */
+  }, []);
 
   return <canvas ref={canvasRef} width={canvasProp.width} height={canvasProp.height} className='perlin-canvas'></canvas>
 }

@@ -121,7 +121,7 @@ function Canvas() {
           ctx.fillStyle = 'rgb(10, 20, 20)';
         } */
 
-        ctx.fillStyle = `rgb(20, ${colorValues[j*(i+1)] * 255}, 20)`;
+        ctx.fillStyle = `rgb(20, ${colorValues[j*(i+1)] * 128}, 20)`;
         ctx.fillRect(i*recSize, j*recSize, recSize, recSize);
       }
     }

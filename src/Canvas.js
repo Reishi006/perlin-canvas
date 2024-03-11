@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react';
 
+import Plot from 'react-plotly.js';
+
 import './App.css';
 
-function Canvas({ width, height}) {
+function Canvas({ width, height }) {
     const canvasRef = useRef(null);
   
     useEffect(() => {
@@ -23,12 +25,35 @@ function Canvas({ width, height}) {
     }, []);
   
     return (
-    <canvas 
-        ref={canvasRef} 
-        width={width} 
-        height={height} 
-        className='perlin-canvas'
-    ></canvas>
+    <>
+      <div className='perlin-plot'>
+        <Plot
+          data={[
+            {
+              x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+              y: [2.5, 3.1, 4.0, 3.4, 4.2, 5.5, 4.9, 5.3, 5.0, 3.9],
+              type: 'scatter',
+              mode: 'lines',
+              line: {color: 'green'},
+              name: 'Plot',
+            },
+          ]}
+          layout={ {
+            autosize: true, 
+            title: 'Plot',
+            paper_bgcolor: "rgb(157, 192, 194)",
+            plot_bgcolor: "rgb(157, 192, 194)",
+          } }
+          useResizeHandler={true}
+        />
+      </div>
+      <canvas 
+          ref={canvasRef} 
+          width={width} 
+          height={height} 
+          className='perlin-canvas'
+      ></canvas>
+    </>
     );
 }
 

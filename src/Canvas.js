@@ -1,9 +1,7 @@
 import { useEffect, useRef } from 'react';
-
 import Plot from 'react-plotly.js';
 
 import * as Perlin from './PerlinFunctions';
-
 import './App.css';
 
 const { setPlotData } = Perlin;
@@ -17,17 +15,22 @@ function Canvas({ width, height }) {
     useEffect(() => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
+      const imageData = ctx.createImageData(width, height);
 
       let size = 8;
   
-      for (let i = 0; i < canvas.width/size; i++) {
-        for (let j = 0; j < canvas.width/size; j++) {
-            let random = Math.floor(Math.random() * 255);
-            //console.log(random);
-            ctx.fillStyle = `rgb(${random}, 0, 0)`;
-            ctx.fillRect(i*size, j*size, size, size);
-        }
+      for (let i = 0; i < imageData.data.length; i += 4) {
+        let random = Math.floor(Math.random() * 255);
+
+        imageData.data[i] = 0;
+        imageData.data[i + 1] = random;
+        imageData.data[i + 2] = 0;
+        imageData.data[i + 3] = 255;
       }
+
+      console.log(imageData.data.length);
+
+      ctx.putImageData(imageData, 0, 0)
 
     }, []);
   
@@ -48,8 +51,8 @@ function Canvas({ width, height }) {
           layout={ {
             autosize: true, 
             title: 'Plot',
-            paper_bgcolor: "rgb(157, 192, 194)",
-            plot_bgcolor: "rgb(157, 192, 194)",
+            paper_bgcolor: "rgb(137, 192, 174)",
+            plot_bgcolor: "rgb(137, 192, 174)",
           } }
           useResizeHandler={true}
         />

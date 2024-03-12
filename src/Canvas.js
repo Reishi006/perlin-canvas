@@ -6,6 +6,26 @@ import './App.css';
 
 function Canvas({ width, height }) {
     const canvasRef = useRef(null);
+
+    let xPlot = [];
+    let yPlot = [];
+
+    let prev = Math.floor((Math.random()*20)-10);
+
+    let plusMinus = [-1, 1];
+
+    for (let i = 1; i < 1000; i++) {
+      xPlot.push(i);
+
+      yPlot.push(prev);
+
+      let indexPM = Math.floor(Math.random()*2);
+      let random = Math.random();
+
+      prev += (plusMinus[indexPM] * random);
+    }
+
+    console.log(yPlot);
   
     useEffect(() => {
       const canvas = canvasRef.current;
@@ -16,7 +36,7 @@ function Canvas({ width, height }) {
       for (let i = 0; i < canvas.width/size; i++) {
         for (let j = 0; j < canvas.width/size; j++) {
             let random = Math.floor(Math.random() * 255);
-            console.log(random);
+            //console.log(random);
             ctx.fillStyle = `rgb(${random}, 0, 0)`;
             ctx.fillRect(i*size, j*size, size, size);
         }
@@ -30,8 +50,8 @@ function Canvas({ width, height }) {
         <Plot
           data={[
             {
-              x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-              y: [2.5, 3.1, 4.0, 3.4, 4.2, 5.5, 4.9, 5.3, 5.0, 3.9],
+              x: xPlot,
+              y: yPlot,
               type: 'scatter',
               mode: 'lines',
               line: {color: 'green'},

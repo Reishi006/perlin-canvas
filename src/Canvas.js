@@ -4,27 +4,34 @@ import Plot from 'react-plotly.js';
 import * as Perlin from './PerlinFunctions';
 import './App.css';
 
-const { setPlotData } = Perlin;
+const { 
+  setPlotData, 
+  generateGradientVectors,
+} = Perlin;
 
 
 function Canvas({ width, height }) {
     const canvasRef = useRef(null);
 
     const axes = setPlotData();
+
+    const seed = 800123107341;
   
     useEffect(() => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
       const imageData = ctx.createImageData(width, height);
 
+      generateGradientVectors(seed, width, height);
+
       let size = 8;
   
       for (let i = 0; i < imageData.data.length; i += 4) {
         let random = Math.floor(Math.random() * 255);
 
-        imageData.data[i] = 0;
-        imageData.data[i + 1] = random;
-        imageData.data[i + 2] = 0;
+        imageData.data[i] = random;
+        imageData.data[i + 1] = 0 + (random/2);
+        imageData.data[i + 2] = random;
         imageData.data[i + 3] = 255;
       }
 

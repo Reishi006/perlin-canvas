@@ -33,18 +33,25 @@ export const generateGradientVectors = (seed, width, height, size) => {
 
     console.log(`${a}, ${b}, ${mod}`);
 
-    let gradientVectorX = (a * seed) % (mod);
-    let gradientVectorY = (b * seed) % (mod);
+    let gradientVectorX = (a * seed) % (mod + a);
+    let gradientVectorY = (b * seed) % (mod + b);
 
     console.log(gradientVectorX);
     console.log(gradientVectorY);
 
     for (let i = 0; i <= width; i += size) {
         for (let j = 0; j <= height; j += size) {
-            gradientVectorX = (a * gradientVectorX + j) % (mod);
-            gradientVectorY = (b * gradientVectorY + j) % (mod);
+            gradientVectorX = (a * gradientVectorX + j) % (mod + a);
+            gradientVectorY = (b * gradientVectorY + j) % (mod + b);
+
+            let normGradX = 2 * (gradientVectorX/mod) - 1;
+            let normGradY = 2 * (gradientVectorY/mod) - 1;
+
+            normGradX = Number(normGradX.toFixed(2));
+            normGradY = Number(normGradY.toFixed(2));
             
-            gradientArr.push([gradientVectorX, gradientVectorY]);
+            //gradientArr.push([gradientVectorX, gradientVectorY]);
+            gradientArr.push([normGradX, normGradY]);
         }
         console.log(i);
     }

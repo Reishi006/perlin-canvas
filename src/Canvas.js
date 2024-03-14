@@ -15,15 +15,16 @@ function Canvas({ width, height }) {
 
     const axes = setPlotData();
 
-    const seed = 800123107341;
+    const seed = 800123107341; //800123107341
     const size = 8;
+
+    const colorValues = perlinNoise(seed, width, height, size);
   
     useEffect(() => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
       const imageData = ctx.createImageData(width, height);
 
-      const colorValues = perlinNoise(seed, width, height, size);
       console.log(colorValues.length);
   
       for (let i = 0; i < imageData.data.length; i += 4) {
@@ -34,15 +35,15 @@ function Canvas({ width, height }) {
         imageData.data[i + 2] = colorValues[i/4]*255;
         imageData.data[i + 3] = 255; */
 
-        if (colorValues[i/4] < 0.05) {
+        if (colorValues[i/4] < 0.5) {
           imageData.data[i] = 100;
           imageData.data[i + 1] = 0;
           imageData.data[i + 2] = 100;
-        } else if (colorValues[i/4] >= 0.05 && colorValues[i/4] < 0.4) {
+        } else if (colorValues[i/4] >= 0.5 && colorValues[i/4] < 0.7) {
           imageData.data[i] = 200;
           imageData.data[i + 1] = 0;
           imageData.data[i + 2] = 200;
-        } else if (colorValues[i/4] >= 0.4) {
+        } else if (colorValues[i/4] >= 0.7) {
           imageData.data[i] = 255;
           imageData.data[i + 1] = 0;
           imageData.data[i + 2] = 255;
@@ -65,7 +66,7 @@ function Canvas({ width, height }) {
           data={[
             {
               x: axes.xPlot,
-              y: axes.yPlot,
+              y: colorValues,
               type: 'scatter',
               mode: 'lines',
               line: {color: 'green'},

@@ -100,6 +100,8 @@ export const interpolateDotProducts = (x, y, dotProducts, size) => {
     let value = AB + point[1] * (CD - AB);
 
     let result = (6*value**5) - (15*value**4) + (10*value**3);
+
+    result = (result + 2.5) / 5;
     
     return result;
 }

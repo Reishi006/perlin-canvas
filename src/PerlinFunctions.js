@@ -36,8 +36,8 @@ export const generateGradientVectors = (seed, width, height, size) => {
     let gradientVectorX = (a * seed) % (mod + a);
     let gradientVectorY = (b * seed) % (mod + b);
 
-    console.log(gradientVectorX);
-    console.log(gradientVectorY);
+    //console.log(gradientVectorX);
+    //console.log(gradientVectorY);
 
     for (let i = 0; i <= width; i += size) {
         gradientArr[Math.floor(i/8)] = new Array(height/size);
@@ -63,27 +63,45 @@ export const generateGradientVectors = (seed, width, height, size) => {
     return gradientArr;
 }
 
-export const generateDistanceVector = (size) => {
+export const getDistanceVectors = (x, y, size) => {
     let distanceArr = [];
 
-    //distanceArr containing one square, then repeat the coordinates
+    let point = [(x%8)/size, (y%8)/size];
 
-    for (let i = 0; i < size; i++) {
-        for (let j = 0; j < size; j++) {
-            let x = j/size;
-            let y = i/size;
+    //0 - topLeft, 1 - topRight ... (clockwise)
+    distanceArr[0] = [0 - point[0], 0 - point[1]];
+    distanceArr[1] = [1 - point[0], 0 - point[1]];
+    distanceArr[2] = [1 - point[0], 1 - point[1]];
+    distanceArr[3] = [0 - point[0], 1 - point[1]];
 
-            distanceArr.push([x, y]);
-        }
-    }
-    console.log(distanceArr);
+    //console.log(distanceArr);
 
     return distanceArr;
 }
 
-export const getDotProduct = (gradientArr, distanceArr, size) => {
+export const getDotProduct = (x, y, gradientArr, distanceArr, size) => {
+    let dotProducts = [];
 
+    dotProducts[0] = (gradientArr[Math.floor(x/size)][Math.floor(y/size)][0] * distanceArr[0][0]) - (gradientArr[Math.floor(x/size)][Math.floor(y/size)][1] * distanceArr[0][1]);
+    dotProducts[1] = (gradientArr[Math.floor(x/size)+1][Math.floor(y/size)][0] * distanceArr[1][0]) - (gradientArr[Math.floor(x/size)+1][Math.floor(y/size)][1] * distanceArr[1][1]);
+    dotProducts[2] = (gradientArr[Math.floor(x/size)+1][Math.floor(y/size)+1][0] * distanceArr[2][0]) - (gradientArr[Math.floor(x/size)+1][Math.floor(y/size)+1][1] * distanceArr[2][1]);
+    dotProducts[3] = (gradientArr[Math.floor(x/size)][Math.floor(y/size)+1][0] * distanceArr[3][0]) - (gradientArr[Math.floor(x/size)][Math.floor(y/size)+1][1] * distanceArr[3][1]);
 
+    return dotProducts;
+}
+
+export const interpolateDotProducts = (x, y, dotProducts, size) => {
+
+    let point = [(x%size)/size, (y%size)/size];
+
+    let AB = dotProducts[0] + point[0] * (dotProducts[1] - dotProducts[0]);
+    let CD = dotProducts[3] + point[0] * (dotProducts[2] - dotProducts[3]);
+
+    let value = AB + point[1] * (CD - AB);
+
+    let result = (6*value**5) - (15*value**4) + (10*value**3);
+    
+    return result;
 }
 
 
@@ -91,10 +109,25 @@ export const getDotProduct = (gradientArr, distanceArr, size) => {
 export const perlinNoise = (seed, width, height, size) => {
     const gradientArr = generateGradientVectors(seed, width, height, size);
 
+    let valuesArr = [];
+
 
     for (let i = 0; i < width; i++) {
         for (let j = 0; j < height; j++) {
-            if (i === 0 && j === 0) console.log(gradientArr.length);
+            let distanceArr = getDistanceVectors(j, i, size);
+
+            let dotProducts = getDotProduct(j, i, gradientArr, distanceArr, size);
+
+            let value = interpolateDotProducts(j, i, dotProducts, size);
+            valuesArr.push(value);
+
+            if (i === 1 && j === 1) {
+                console.log(gradientArr[0][0].length);
+                console.log(dotProducts);
+                console.log(value);
+            }
         }
     }
+
+    return valuesArr;
 }

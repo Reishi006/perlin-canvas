@@ -24,7 +24,7 @@ export const setPlotData = () => {
     return {xPlot, yPlot};
 }
 
-export const generateGradientVectors = (seed, width, height) => {
+export const generateGradientVectors = (seed, width, height, size) => {
     let gradientArr = [];
 
     let a = Math.ceil(seed/835);
@@ -39,15 +39,45 @@ export const generateGradientVectors = (seed, width, height) => {
     console.log(gradientVectorX);
     console.log(gradientVectorY);
 
-    for (let i = 0; i <= width; i += 8) {
-        for (let j = 0; j <= height; j += 8) {
+    for (let i = 0; i <= width; i += size) {
+        for (let j = 0; j <= height; j += size) {
             gradientVectorX = (a * gradientVectorX + j) % (mod);
             gradientVectorY = (b * gradientVectorY + j) % (mod);
             
             gradientArr.push([gradientVectorX, gradientVectorY]);
         }
-        console.log(i)
+        console.log(i);
     }
 
     console.log(gradientArr);
+
+    return gradientArr;
+}
+
+export const generateDistanceVectors = (size) => {
+    let distanceArr = [];
+
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            let x = j/size;
+            let y = i/size;
+
+            distanceArr.push([x, y]);
+        }
+    }
+    console.log(distanceArr);
+
+}
+
+export const getDotProduct = (gradientArr, distanceArr, size) => {
+
+}
+
+
+
+export const perlinNoise = (seed, width, height, size) => {
+    const gradientArr = generateGradientVectors(seed, width, height, size);
+    const distanceArr = generateDistanceVectors(size);
+
+
 }

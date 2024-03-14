@@ -5,8 +5,8 @@ import * as Perlin from './PerlinFunctions';
 import './App.css';
 
 const { 
-  setPlotData, 
-  generateGradientVectors,
+  setPlotData,
+  perlinNoise,
 } = Perlin;
 
 
@@ -16,15 +16,14 @@ function Canvas({ width, height }) {
     const axes = setPlotData();
 
     const seed = 800123107341;
+    const size = 8;
   
     useEffect(() => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
       const imageData = ctx.createImageData(width, height);
 
-      generateGradientVectors(seed, width, height);
-
-      let size = 8;
+      perlinNoise(seed, width, height, size);
   
       for (let i = 0; i < imageData.data.length; i += 4) {
         let random = Math.floor(Math.random() * 255);

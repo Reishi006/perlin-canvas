@@ -14,12 +14,12 @@ export const setPlotData = () => {
         let indexPM = Math.floor(Math.random()*2);
         let random = Math.random();
 
-        console.log(random);
+        //console.log(random);
 
         prev += (plusMinus[indexPM] * random);
     }
 
-    console.log(yPlot);
+    //console.log(yPlot);
 
     return {xPlot, yPlot};
 }
@@ -40,6 +40,7 @@ export const generateGradientVectors = (seed, width, height, size) => {
     console.log(gradientVectorY);
 
     for (let i = 0; i <= width; i += size) {
+        gradientArr[Math.floor(i/8)] = new Array(height/size);
         for (let j = 0; j <= height; j += size) {
             gradientVectorX = (a * gradientVectorX + j) % (mod + a);
             gradientVectorY = (b * gradientVectorY + j) % (mod + b);
@@ -51,9 +52,10 @@ export const generateGradientVectors = (seed, width, height, size) => {
             normGradY = Number(normGradY.toFixed(2));
             
             //gradientArr.push([gradientVectorX, gradientVectorY]);
-            gradientArr.push([normGradX, normGradY]);
+            //gradientArr.push([normGradX, normGradY]);
+            gradientArr[Math.floor(i/8)][Math.floor(j/8)] = [normGradX, normGradY];
         }
-        console.log(i);
+        //console.log(i);
     }
 
     console.log(gradientArr);
@@ -61,8 +63,10 @@ export const generateGradientVectors = (seed, width, height, size) => {
     return gradientArr;
 }
 
-export const generateDistanceVectors = (size) => {
+export const generateDistanceVector = (size) => {
     let distanceArr = [];
+
+    //distanceArr containing one square, then repeat the coordinates
 
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
@@ -74,9 +78,11 @@ export const generateDistanceVectors = (size) => {
     }
     console.log(distanceArr);
 
+    return distanceArr;
 }
 
 export const getDotProduct = (gradientArr, distanceArr, size) => {
+
 
 }
 
@@ -84,7 +90,11 @@ export const getDotProduct = (gradientArr, distanceArr, size) => {
 
 export const perlinNoise = (seed, width, height, size) => {
     const gradientArr = generateGradientVectors(seed, width, height, size);
-    const distanceArr = generateDistanceVectors(size);
 
 
+    for (let i = 0; i < width; i++) {
+        for (let j = 0; j < height; j++) {
+            if (i === 0 && j === 0) console.log(gradientArr.length);
+        }
+    }
 }

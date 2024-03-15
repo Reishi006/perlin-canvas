@@ -6,7 +6,7 @@ export const setPlotData = () => {
 
     let plusMinus = [-1, 1];
 
-    for (let i = 1; i < 1000; i++) {
+    for (let i = 1; i < 150; i++) {
         xPlot.push(i);
 
         yPlot.push(prev);
@@ -14,12 +14,8 @@ export const setPlotData = () => {
         let indexPM = Math.floor(Math.random()*2);
         let random = Math.random();
 
-        //console.log(random);
-
         prev += (plusMinus[indexPM] * random);
     }
-
-    //console.log(yPlot);
 
     return {xPlot, yPlot};
 }
@@ -35,9 +31,6 @@ export const generateGradientVectors = (seed, width, height, size) => {
 
     let gradientVectorX = (a * seed) % (mod + a);
     let gradientVectorY = (b * seed) % (mod + b);
-
-    //console.log(gradientVectorX);
-    //console.log(gradientVectorY);
 
     for (let i = 0; i <= width; i += size) {
         gradientArr[Math.floor(i/8)] = new Array(height/size);
@@ -55,7 +48,6 @@ export const generateGradientVectors = (seed, width, height, size) => {
             //gradientArr.push([normGradX, normGradY]);
             gradientArr[Math.floor(i/8)][Math.floor(j/8)] = [normGradX, normGradY];
         }
-        //console.log(i);
     }
 
     console.log(gradientArr);
@@ -73,8 +65,6 @@ export const getDistanceVectors = (x, y, size) => {
     distanceArr[1] = [1 - point[0], 0 - point[1]];
     distanceArr[2] = [1 - point[0], 1 - point[1]];
     distanceArr[3] = [0 - point[0], 1 - point[1]];
-
-    //console.log(distanceArr);
 
     return distanceArr;
 }

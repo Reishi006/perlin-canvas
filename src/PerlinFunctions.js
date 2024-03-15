@@ -66,7 +66,7 @@ export const generateGradientVectors = (seed, width, height, size) => {
 export const getDistanceVectors = (x, y, size) => {
     let distanceArr = [];
 
-    let point = [(x%8)/size, (y%8)/size];
+    let point = [(x%8)/size+1, (y%8)/size+1];
 
     //0 - topLeft, 1 - topRight ... (clockwise)
     distanceArr[0] = [0 - point[0], 0 - point[1]];

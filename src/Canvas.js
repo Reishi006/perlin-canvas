@@ -28,8 +28,6 @@ function Canvas({ width, height }) {
       console.log(colorValues.length);
   
       for (let i = 0; i < imageData.data.length; i += 4) {
-        let random = Math.floor(Math.random() * 255);
-
         /* imageData.data[i] = colorValues[i/4]*255;
         imageData.data[i + 1] = 0 + ((colorValues[i/4]*255)/2);
         imageData.data[i + 2] = colorValues[i/4]*255;

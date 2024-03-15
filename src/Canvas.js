@@ -35,14 +35,18 @@ function Canvas({ width, height }) {
         imageData.data[i + 2] = colorValues[i/4]*255;
         imageData.data[i + 3] = 255; */
 
-        if (colorValues[i/4] < 0.5) {
+        if (colorValues[i/4] < 0.3) {
+          imageData.data[i] = 70;
+          imageData.data[i + 1] = 0;
+          imageData.data[i + 2] = 70;
+        } else if (colorValues[i/4] < 0.5 && colorValues[i/4] >= 0.3) {
           imageData.data[i] = 100;
           imageData.data[i + 1] = 0;
           imageData.data[i + 2] = 100;
         } else if (colorValues[i/4] >= 0.5 && colorValues[i/4] < 0.7) {
-          imageData.data[i] = 200;
+          imageData.data[i] = 190;
           imageData.data[i + 1] = 0;
-          imageData.data[i + 2] = 200;
+          imageData.data[i + 2] = 190;
         } else if (colorValues[i/4] >= 0.7) {
           imageData.data[i] = 255;
           imageData.data[i + 1] = 0;

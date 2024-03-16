@@ -15,8 +15,8 @@ function Canvas({ width, height }) {
 
     const axes = setPlotData();
 
-    const seed = 800123107341; //800123107341
-    const size = 8;
+    const seed = 782940106259; //800123107341
+    const size = 16;
 
     const colorValues = perlinNoise(seed, width, height, size);
   

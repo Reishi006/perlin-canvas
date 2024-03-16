@@ -16,7 +16,7 @@ function Canvas({ width, height }) {
     const axes = setPlotData();
 
     const seed = 782940106259; //800123107341
-    const size = 16;
+    const size = 32;
 
     const colorValues = perlinNoise(seed, width, height, size);
   
@@ -72,12 +72,12 @@ function Canvas({ width, height }) {
               type: 'scatter',
               mode: 'lines',
               line: {color: 'green'},
-              name: 'Plot',
+              name: 'Noise values',
             },
           ]}
           layout={ {
             autosize: true, 
-            title: 'Plot',
+            title: 'Noise values',
             paper_bgcolor: "rgb(137, 192, 174)",
             plot_bgcolor: "rgb(137, 192, 174)",
           } }

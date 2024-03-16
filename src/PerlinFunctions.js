@@ -27,13 +27,11 @@ export const generateGradientVectors = (seed, width, height, size) => {
     let b = Math.ceil(seed/2906);
     let mod = 10 ** (seed.toString().length);
 
-    console.log(`${a}, ${b}, ${mod}`);
-
     let gradientVectorX = (a * seed) % (mod + a);
     let gradientVectorY = (b * seed) % (mod + b);
 
     for (let i = 0; i <= width; i += size) {
-        gradientArr[Math.floor(i/8)] = new Array(height/size);
+        gradientArr[Math.floor(i/size)] = new Array(height/size);
         for (let j = 0; j <= height; j += size) {
             gradientVectorX = (a * gradientVectorX + j) % (mod + a);
             gradientVectorY = (b * gradientVectorY + j) % (mod + b);
@@ -43,10 +41,8 @@ export const generateGradientVectors = (seed, width, height, size) => {
 
             normGradX = Number(normGradX.toFixed(2));
             normGradY = Number(normGradY.toFixed(2));
-            
-            //gradientArr.push([gradientVectorX, gradientVectorY]);
-            //gradientArr.push([normGradX, normGradY]);
-            gradientArr[Math.floor(i/8)][Math.floor(j/8)] = [normGradX, normGradY];
+
+            gradientArr[Math.floor(i/size)][Math.floor(j/size)] = [normGradX, normGradY];
         }
     }
 
@@ -58,7 +54,7 @@ export const generateGradientVectors = (seed, width, height, size) => {
 export const getDistanceVectors = (x, y, size) => {
     let distanceArr = [];
 
-    let point = [(x%8)/size, (y%8)/size];
+    let point = [(x%size)/size, (y%size)/size];
 
     //0 - topLeft, 1 - topRight ... (clockwise)
     distanceArr[0] = [0 - point[0], 0 - point[1]];
@@ -123,12 +119,6 @@ export const perlinNoise = (seed, width, height, size) => {
 
             let value = interpolateDotProducts(j, i, dotProducts, size);
             valuesArr.push(value);
-
-            if (i === 1 && j === 1) {
-                console.log(gradientArr[0][0].length);
-                console.log(dotProducts);
-                console.log(value);
-            }
         }
     }
 

@@ -5,8 +5,8 @@ import './App.css';
 
 function App() {
 
-  let width = 640;
-  let height = 640;
+  let width = 512;
+  let height = width;
 
   return (
       <div className='app-container'>

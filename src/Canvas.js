@@ -33,7 +33,7 @@ function Canvas({ width, height }) {
         imageData.data[i + 2] = colorValues[i/4]*255;
         imageData.data[i + 3] = 255; */
 
-        if (colorValues[i/4] < 0.3) {
+        /* if (colorValues[i/4] < 0.3) {
           imageData.data[i] = 70;
           imageData.data[i + 1] = 0;
           imageData.data[i + 2] = 70;
@@ -49,8 +49,24 @@ function Canvas({ width, height }) {
           imageData.data[i] = 255;
           imageData.data[i + 1] = 0;
           imageData.data[i + 2] = 255;
-        }
+        } */
 
+
+        let max = 0.6;
+
+        if (colorValues[i/4] < max-0.05) {
+          imageData.data[i] = 10;
+          imageData.data[i + 1] = 10;
+          imageData.data[i + 2] = 230;
+        } else if (colorValues[i/4] > max-0.05 && colorValues[i/4] <= max) {
+          imageData.data[i] = 240;
+          imageData.data[i + 1] = 230;
+          imageData.data[i + 2] = 52;
+        } else if (colorValues[i/4] >= max) {
+          imageData.data[i] = 20;
+          imageData.data[i + 1] = 190;
+          imageData.data[i + 2] = 20;
+        }
 
         imageData.data[i + 3] = 255;
       }

@@ -1,4 +1,4 @@
-export const setPlotData = () => {
+export const setPlotData = (width) => {
     let xPlot = [];
     let yPlot = [];
 
@@ -6,7 +6,7 @@ export const setPlotData = () => {
 
     let plusMinus = [-1, 1];
 
-    for (let i = 1; i < 150; i++) {
+    for (let i = 0; i < width/4; i++) {
         xPlot.push(i);
 
         yPlot.push(prev);

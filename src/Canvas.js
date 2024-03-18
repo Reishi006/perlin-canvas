@@ -13,9 +13,9 @@ const {
 function Canvas({ width, height }) {
     const canvasRef = useRef(null);
 
-    const axes = setPlotData();
+    const axes = setPlotData(width);
 
-    const seed = 782940106259; //800123107341
+    const seed = 800123107341; //800123107341 //782940106259
     const size = 32;
 
     const colorValues = perlinNoise(seed, width, height, size);
@@ -51,21 +51,26 @@ function Canvas({ width, height }) {
           imageData.data[i + 2] = 255;
         } */
 
-
-        let max = 0.6;
-
-        if (colorValues[i/4] < max-0.05) {
+        if (colorValues[i/4] <= 0.35) {
+          imageData.data[i] = 10;
+          imageData.data[i + 1] = 10;
+          imageData.data[i + 2] = 170;
+        } else if (colorValues[i/4] > 0.35 && colorValues[i/4] <= 0.55) {
           imageData.data[i] = 10;
           imageData.data[i + 1] = 10;
           imageData.data[i + 2] = 230;
-        } else if (colorValues[i/4] > max-0.05 && colorValues[i/4] <= max) {
+        } else if (colorValues[i/4] > 0.55 && colorValues[i/4] <= 0.6) {
           imageData.data[i] = 240;
           imageData.data[i + 1] = 230;
           imageData.data[i + 2] = 52;
-        } else if (colorValues[i/4] >= max) {
+        } else if (colorValues[i/4] >= 0.6 && colorValues[i/4] <= 0.75) {
           imageData.data[i] = 20;
-          imageData.data[i + 1] = 190;
+          imageData.data[i + 1] = 180;
           imageData.data[i + 2] = 20;
+        } else if (colorValues[i/4] > 0.75) {
+          imageData.data[i] = 30;
+          imageData.data[i + 1] = 210;
+          imageData.data[i + 2] = 30;
         }
 
         imageData.data[i + 3] = 255;

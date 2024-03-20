@@ -9,6 +9,14 @@ body, html {
   height: 100vh;
   position: relative;
   display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.perlin {
+  width: 100%;
+  display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
@@ -22,3 +30,19 @@ body, html {
   background-color: midnightblue;
 }
 
+.seed-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.seed-input {
+  width: 60%;
+  margin: .5em auto;
+  padding: .5em;
+
+  border: none;
+  border-radius: 2px;
+  background-color: lightgray;
+}

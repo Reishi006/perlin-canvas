@@ -10,10 +10,16 @@ function App() {
 
   return (
       <div className='app-container'>
-        <Canvas
-          width={width}
-          height={height}
-        ></Canvas>
+        <div className='perlin'>
+          <Canvas
+            width={width}
+            height={height}
+          ></Canvas>
+        </div>
+        <label className='seed'>
+          Input a seed (number between 100 000 - 999 999 999 999)<br/>
+          <input className='seed-input' type='text' min='100000' max='999999999999' maxLength='12' placeholder='Enter a seed'></input>
+        </label>
       </div>
   );
 }

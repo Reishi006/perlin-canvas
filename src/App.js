@@ -15,14 +15,20 @@ function App() {
     if (!isNaN(e.target.value)) {
       inputRef.current = e.target.value; 
     } else {
-      e.target.value = '';
+      e.target.value = inputRef.current;
     }
     console.log(e.target.value);
   }
 
-  const generatePerlin = (e) => {
-    if (e.key === 'Enter') {
+  const generatePerlinKey = (e) => {
+    if (e.key === 'Enter' && inputRef.current.length > 5) {
       console.log('enter');
+    }
+  }
+
+  const generatePerlinButton = () => {
+    if (inputRef.current.length > 5) {
+      console.log('button');
     }
   }
 
@@ -36,16 +42,23 @@ function App() {
         </div>
         <label className='seed'>
           Input a seed (number between 100 000 - 999 999 999 999)<br/>
-          <input 
-            className='seed-input' 
-            type='text' 
-            min='100000' 
-            max='999999999999' 
-            maxLength='12' 
-            placeholder='Enter a seed'
-            onInput={(e) => getValue(e)}
-            onKeyDown={(e) => generatePerlin(e)}
-          ></input>
+          <div>
+            <input 
+              className='seed-input' 
+              type='text'
+              min='100000' 
+              max='999999999999'
+              minLength='6'
+              maxLength='12' 
+              placeholder='Enter a seed'
+              onInput={(e) => getValue(e)}
+              onKeyDown={(e) => generatePerlinKey(e)}
+            ></input>
+            <button 
+              className='seed-input-button'
+              onClick={() => generatePerlinButton()}
+            >Enter</button>
+          </div>
         </label>
       </div>
   );

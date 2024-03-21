@@ -30,7 +30,7 @@ body, html {
   background-color: midnightblue;
 }
 
-.seed-input {
+.seed {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,7 +39,10 @@ body, html {
 
 .seed-input {
   width: 60%;
-  margin: .5em auto;
+  margin: .7em;
+}
+
+.seed-input, .seed-input-button {
   padding: .5em;
 
   border: none;

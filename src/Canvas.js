@@ -60,26 +60,38 @@ function Canvas(props) {
         imageData.data[i + 2] = 255;
       } */
 
-      if (colorValues.current[i/4] <= 0.35) {
+      if (colorValues.current[i/4] <= 0.15) {
+        imageData.data[i] = 20;
+        imageData.data[i + 1] = 20;
+        imageData.data[i + 2] = 120;
+      } else if (colorValues.current[i/4] > 0.15 && colorValues.current[i/4] <= 0.25) {
         imageData.data[i] = 10;
         imageData.data[i + 1] = 10;
         imageData.data[i + 2] = 170;
-      } else if (colorValues.current[i/4] > 0.35 && colorValues.current[i/4] <= 0.5) {
+      } else if (colorValues.current[i/4] > 0.25 && colorValues.current[i/4] <= 0.4) {
         imageData.data[i] = 10;
         imageData.data[i + 1] = 10;
         imageData.data[i + 2] = 230;
-      } else if (colorValues.current[i/4] > 0.5 && colorValues.current[i/4] <= 0.55) {
+      } else if (colorValues.current[i/4] > 0.4 && colorValues.current[i/4] <= 0.45) {
         imageData.data[i] = 240;
         imageData.data[i + 1] = 230;
         imageData.data[i + 2] = 52;
-      } else if (colorValues.current[i/4] >= 0.55 && colorValues.current[i/4] <= 0.75) {
-        imageData.data[i] = 20;
-        imageData.data[i + 1] = 180;
-        imageData.data[i + 2] = 20;
-      } else if (colorValues.current[i/4] > 0.75) {
+      } else if (colorValues.current[i/4] >= 0.45 && colorValues.current[i/4] <= 0.5) {
         imageData.data[i] = 30;
         imageData.data[i + 1] = 210;
         imageData.data[i + 2] = 30;
+      } else if (colorValues.current[i/4] >= 0.5 && colorValues.current[i/4] <= 0.65) {
+        imageData.data[i] = 20;
+        imageData.data[i + 1] = 180;
+        imageData.data[i + 2] = 20;
+      } else if (colorValues.current[i/4] > 0.65 && colorValues.current[i/4] <= 0.8) {
+        imageData.data[i] = 40;
+        imageData.data[i + 1] = 150;
+        imageData.data[i + 2] = 40;
+      } else if (colorValues.current[i/4] > 0.8) {
+        imageData.data[i] = 70;
+        imageData.data[i + 1] = 120;
+        imageData.data[i + 2] = 50;
       }
 
       imageData.data[i + 3] = 255;

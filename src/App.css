@@ -21,11 +21,6 @@ body, html {
   align-items: center;
 }
 
-.perlin-plot > div {
-  width: 700px;
-  height: 500px;
-}
-
 .perlin-canvas {
   background-color: midnightblue;
 }
@@ -33,6 +28,12 @@ body, html {
 .seed {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.seed > div {
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -43,7 +44,7 @@ body, html {
 }
 
 .seed-input, .seed-input-button {
-  padding: .5em;
+  padding: 10px;
 
   border: none;
   border-radius: 2px;

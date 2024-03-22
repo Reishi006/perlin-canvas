@@ -99,7 +99,7 @@ function Canvas(props) {
     }, []);
 
   const randomizeValue = () => {
-    let random = Math.floor(Math.random() * 100000000)
+    let random = Math.floor(Math.random()*999999999999)+100000;
     //setInput(random);
     inputRef.current.value = random; 
     let seed = Number(inputRef.current.value);
@@ -157,6 +157,8 @@ function Canvas(props) {
               },
             ]}
             layout={ {
+              width: 700,
+              height: props.height,
               autosize: true, 
               title: 'Noise values',
               paper_bgcolor: "rgb(137, 192, 174)",
@@ -173,30 +175,30 @@ function Canvas(props) {
         ></canvas>
       </div>
       <label className='seed'>
-          Input a seed (number between 100 000 - 999 999 999 999)<br/>
-          <div>
-            <button
-              className='seed-input-button'
-              onClick={() => randomizeValue()}
-            >🔀</button>
-            <input 
-              ref={inputRef}
-              className='seed-input' 
-              type='text'
-              min='100000' 
-              max='999999999999'
-              minLength='6'
-              maxLength='12' 
-              placeholder='Enter a seed'
-              onInput={(e) => getValue(e)}
-              onKeyDown={(e) => generatePerlinKey(e)}
-            ></input>
-            <button 
-              className='seed-input-button'
-              onClick={() => generatePerlinButton()}
-            >Enter</button>
-          </div>
-        </label>
+        Input a seed (number between 100 000 - 999 999 999 999)<br/>
+        <div>
+          <button
+            className='seed-input-button'
+            onClick={() => randomizeValue()}
+          >🔀</button>
+          <input 
+            ref={inputRef}
+            className='seed-input' 
+            type='text'
+            min='100000' 
+            max='999999999999'
+            minLength='6'
+            maxLength='12' 
+            placeholder='Enter a seed'
+            onInput={(e) => getValue(e)}
+            onKeyDown={(e) => generatePerlinKey(e)}
+          ></input>
+          <button 
+            className='seed-input-button'
+            onClick={() => generatePerlinButton()}
+          >Enter</button>
+        </div>
+      </label>
     </>
     );
 }

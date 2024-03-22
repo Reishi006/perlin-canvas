@@ -18,18 +18,18 @@ function Canvas(props) {
   const seed = 800123107341; //800123107341 //782940106259
   
   const inputRef = useRef(Math.floor(Math.random()*99999999)+100000);
-  const colorValues = useRef(100000);
+  const colorValues = useRef(seed);
 
   const [plotValues, setPlotValues] = useState(colorValues.current);
 
-  const size = 128;
+  const size = 32;
 
   colorValues.current = perlinNoise(inputRef.current, props.width, props.height, size);
 
   const draw = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    //ctx.clearRect(0, 0, props.width, props.height);
+    ctx.clearRect(0, 0, props.width, props.height);
     const imageData = ctx.createImageData(props.width, props.height);
     console.log(imageData.data.length);
 
@@ -137,7 +137,10 @@ function Canvas(props) {
                 y: plotValues,
                 type: 'scatter',
                 mode: 'lines',
-                line: {color: 'green'},
+                line: {
+                  color: 'green',
+                  width: 4,
+                },
                 name: 'Noise values',
               },
             ]}

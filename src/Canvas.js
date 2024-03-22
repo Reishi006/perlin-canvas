@@ -15,11 +15,12 @@ function Canvas(props) {
 
   const axes = setPlotData(props.width);
 
-  const seed = 800123107341; //800123107341 //782940106259
-  
-  const inputRef = useRef(Math.floor(Math.random()*99999999)+100000);
+  const seed = 800123107341; //800123107341 //78294010625;
   const colorValues = useRef(seed);
 
+  const inputRef = useRef(Math.floor(Math.random()*999999999999)+100000);
+
+  //const [input, setInput] = useState(Math.floor(Math.random()*99999999)+100000);
   const [plotValues, setPlotValues] = useState(colorValues.current);
 
   const size = 32;
@@ -97,29 +98,40 @@ function Canvas(props) {
       draw();
     }, []);
 
+  const randomizeValue = () => {
+    let random = Math.floor(Math.random() * 100000000)
+    //setInput(random);
+    inputRef.current.value = random; 
+    let seed = Number(inputRef.current.value);
+    console.log(seed);
+    colorValues.current = perlinNoise(seed, props.width, props.height, size);
+    draw();
+  }
+
   const getValue = (e) => {
     e.preventDefault();
     if (!isNaN(e.target.value)) {
-      inputRef.current = e.target.value; 
+      //setInput(e.target.value);
+      inputRef.current.value = e.target.value;
     } else {
-      e.target.value = inputRef.current;
+      e.target.value = inputRef.current.value;
     }
     console.log(e.target.value);
   }
 
   const generatePerlinKey = (e) => {
-    if (e.key === 'Enter' && inputRef.current.length > 5) {
+    if (e.key === 'Enter' && inputRef.current.value.length > 5) {
       console.log('enter');
-      let seed = Number(inputRef.current);
+      let seed = Number(inputRef.current.value);
       colorValues.current = perlinNoise(seed, props.width, props.height, size);
       draw();
     }
   }
 
   const generatePerlinButton = () => {
-    if (inputRef.current.length > 5) {
+    if (inputRef.current.value.length > 5) {
       console.log('button');
-      let seed = Number(inputRef.current);
+      let seed = Number(inputRef.current.value);
       console.log(seed);
       colorValues.current = perlinNoise(seed, props.width, props.height, size);
       draw();
@@ -163,7 +175,12 @@ function Canvas(props) {
       <label className='seed'>
           Input a seed (number between 100 000 - 999 999 999 999)<br/>
           <div>
+            <button
+              className='seed-input-button'
+              onClick={() => randomizeValue()}
+            >🔀</button>
             <input 
+              ref={inputRef}
               className='seed-input' 
               type='text'
               min='100000' 

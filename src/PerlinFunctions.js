@@ -23,8 +23,8 @@ export const setPlotData = (width) => {
 export const generateGradientVectors = (seed, width, height, size) => {
     let gradientArr = [];
 
-    let a = Math.ceil(seed/835);
-    let b = Math.ceil(seed/2906);
+    let a = Math.ceil(seed/835); //835
+    let b = Math.ceil(seed/2906); //2906
     let mod = 10 ** (seed.toString().length);
 
     let gradientVectorX = (a * seed) % (mod + a);
@@ -46,7 +46,7 @@ export const generateGradientVectors = (seed, width, height, size) => {
         }
     }
 
-    console.log(gradientArr);
+    //console.log(gradientArr);
 
     return gradientArr;
 }
@@ -106,7 +106,7 @@ export const interpolateDotProducts = (x, y, dotProducts, size) => {
 
 
 export const perlinNoise = (seed, width, height, size) => {
-    const gradientArr = generateGradientVectors(seed, width, height, size);
+    let gradientArr = generateGradientVectors(seed, width, height, size);
 
     let valuesArr = [];
 
@@ -121,6 +121,8 @@ export const perlinNoise = (seed, width, height, size) => {
             valuesArr.push(value);
         }
     }
+
+    gradientArr = null;
 
     return valuesArr;
 }

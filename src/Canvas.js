@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef} from 'react';
 import Plot from 'react-plotly.js';
 
 import * as Perlin from './PerlinFunctions';
@@ -12,29 +12,38 @@ const {
 
 function Canvas(props) {
   const canvasRef = useRef(null);
+  const imageDataRef = useRef(null);
+  const colorValuesRef = useRef(null);
 
   const axes = setPlotData(props.width);
 
-  const seed = 800123107341; //800123107341 //78294010625;
-  const colorValues = useRef(seed);
+  //const seed = 800123107341; //800123107341 //78294010625;
+  //const colorValues = useRef(seed);
 
-  const inputRef = useRef(Math.floor(Math.random()*999999999999)+100000);
+  const inputRef = useRef(null);
 
-  //const [input, setInput] = useState(Math.floor(Math.random()*99999999)+100000);
-  const [plotValues, setPlotValues] = useState(colorValues.current);
+  const randomValue = Math.floor(Math.random()*999999999999)+100000;
 
   const size = 32;
-
-  colorValues.current = perlinNoise(inputRef.current, props.width, props.height, size);
+  //const [input, setInput] = useState(Math.floor(Math.random()*99999999)+100000);
+  const [plotValues, setPlotValues] = useState(null);
 
   const draw = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, props.width, props.height);
-    const imageData = ctx.createImageData(props.width, props.height);
-    console.log(imageData.data.length);
+    if (!imageDataRef.current) {
+      imageDataRef.current = ctx.createImageData(props.width, props.height);
+    }
+    //console.log(imageDataRef.current.data);
 
-    console.log(colorValues.current.length);
+    //console.log(inputRef.current.value);
+    let imageData = imageDataRef.current;
+    colorValuesRef.current = perlinNoise(inputRef.current.value, props.width, props.height, size);
+    let colorValues = colorValuesRef.current;
+    setPlotValues(colorValues);
+
+    //console.log(colorValues);
 
     for (let i = 0; i < imageData.data.length; i += 4) {
       /* imageData.data[i] = props.colorValues[i/4]*255;
@@ -60,35 +69,35 @@ function Canvas(props) {
         imageData.data[i + 2] = 255;
       } */
 
-      if (colorValues.current[i/4] <= 0.15) {
+      if (colorValues[i/4] <= 0.15) {
         imageData.data[i] = 20;
         imageData.data[i + 1] = 20;
         imageData.data[i + 2] = 120;
-      } else if (colorValues.current[i/4] > 0.15 && colorValues.current[i/4] <= 0.25) {
+      } else if (colorValues[i/4] > 0.15 && colorValues[i/4] <= 0.25) {
         imageData.data[i] = 10;
         imageData.data[i + 1] = 10;
         imageData.data[i + 2] = 170;
-      } else if (colorValues.current[i/4] > 0.25 && colorValues.current[i/4] <= 0.4) {
+      } else if (colorValues[i/4] > 0.25 && colorValues[i/4] <= 0.4) {
         imageData.data[i] = 10;
         imageData.data[i + 1] = 10;
         imageData.data[i + 2] = 230;
-      } else if (colorValues.current[i/4] > 0.4 && colorValues.current[i/4] <= 0.45) {
+      } else if (colorValues[i/4] > 0.4 && colorValues[i/4] <= 0.45) {
         imageData.data[i] = 240;
         imageData.data[i + 1] = 230;
         imageData.data[i + 2] = 52;
-      } else if (colorValues.current[i/4] >= 0.45 && colorValues.current[i/4] <= 0.5) {
+      } else if (colorValues[i/4] >= 0.45 && colorValues[i/4] <= 0.5) {
         imageData.data[i] = 30;
         imageData.data[i + 1] = 210;
         imageData.data[i + 2] = 30;
-      } else if (colorValues.current[i/4] >= 0.5 && colorValues.current[i/4] <= 0.65) {
+      } else if (colorValues[i/4] >= 0.5 && colorValues[i/4] <= 0.65) {
         imageData.data[i] = 20;
         imageData.data[i + 1] = 180;
         imageData.data[i + 2] = 20;
-      } else if (colorValues.current[i/4] > 0.65 && colorValues.current[i/4] <= 0.8) {
+      } else if (colorValues[i/4] > 0.65 && colorValues[i/4] <= 0.8) {
         imageData.data[i] = 40;
         imageData.data[i + 1] = 150;
         imageData.data[i + 2] = 40;
-      } else if (colorValues.current[i/4] > 0.8) {
+      } else if (colorValues[i/4] > 0.8) {
         imageData.data[i] = 70;
         imageData.data[i + 1] = 120;
         imageData.data[i + 2] = 50;
@@ -97,55 +106,46 @@ function Canvas(props) {
       imageData.data[i + 3] = 255;
     }
 
-    console.log(imageData.data.length);
-    console.log(colorValues.current);
+    //console.log(imageData.data.length);
+    //console.log(colorValues);
 
     ctx.putImageData(imageData, 0, 0);
 
-    setPlotValues(colorValues.current);
+    imageData = null;
+
+    setPlotValues(colorValues);
+    colorValues = null;
 
   }
 
     useEffect(() => {
+      inputRef.current.value = randomValue;
       draw();
     }, []);
 
   const randomizeValue = () => {
     let random = Math.floor(Math.random()*999999999999)+100000;
-    //setInput(random);
-    inputRef.current.value = random; 
-    let seed = Number(inputRef.current.value);
-    console.log(seed);
-    colorValues.current = perlinNoise(seed, props.width, props.height, size);
+    inputRef.current.value = random;
     draw();
   }
 
   const getValue = (e) => {
     e.preventDefault();
     if (!isNaN(e.target.value)) {
-      //setInput(e.target.value);
       inputRef.current.value = e.target.value;
     } else {
       e.target.value = inputRef.current.value;
     }
-    console.log(e.target.value);
   }
 
   const generatePerlinKey = (e) => {
     if (e.key === 'Enter' && inputRef.current.value.length > 5) {
-      console.log('enter');
-      let seed = Number(inputRef.current.value);
-      colorValues.current = perlinNoise(seed, props.width, props.height, size);
       draw();
     }
   }
 
   const generatePerlinButton = () => {
     if (inputRef.current.value.length > 5) {
-      console.log('button');
-      let seed = Number(inputRef.current.value);
-      console.log(seed);
-      colorValues.current = perlinNoise(seed, props.width, props.height, size);
       draw();
     }
   }

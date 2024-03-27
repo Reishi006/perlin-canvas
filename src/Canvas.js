@@ -140,19 +140,19 @@ function Canvas(props) {
   }
 
   const generatePerlinKey = (e) => {
-    if (e.key === 'Enter' && inputRef.current.value.length > 5) {
+    if (e.key === 'Enter' && inputRef.current.value.length > 5 && !isNaN(inputRef.current.value)) {
       draw();
       errorRef.current.style.opacity = 0;
-    } else if (e.key === 'Enter' && inputRef.current.value.length <= 5) {
+    } else if ((e.key === 'Enter' && inputRef.current.value.length <= 5) || isNaN(inputRef.current.value)) {
       errorRef.current.style.opacity = 1;
     }
   }
 
   const generatePerlinButton = () => {
-    if (inputRef.current.value.length > 5) {
+    if (inputRef.current.value.length > 5 && !isNaN(inputRef.current.value)) {
       draw();
       errorRef.current.style.opacity = 0;
-    } else if (inputRef.current.value.length <= 5) {
+    } else if (inputRef.current.value.length <= 5 || isNaN(inputRef.current.value)) {
       errorRef.current.style.opacity = 1;
     }
   }
@@ -204,7 +204,7 @@ function Canvas(props) {
             className='perlin-canvas'
         ></canvas>
       </div>
-      <label className='seed'>
+      <div className='seed'>
         Input a seed (number between 100 000 - 999 999 999 999)<br/>
 
         <div
@@ -236,7 +236,7 @@ function Canvas(props) {
           onClick={() => generatePerlinButton()}
         >Enter</button>
       </div>
-      </label>
+      </div>
     </>
     );
 }

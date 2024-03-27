@@ -169,7 +169,7 @@ function Canvas(props) {
                 type: 'scatter',
                 mode: 'lines',
                 line: {
-                  color: 'green',
+                  color: 'rgb(72, 240, 95)',
                   width: 4,
                 },
                 name: 'Noise values',
@@ -180,8 +180,19 @@ function Canvas(props) {
               height: props.height,
               autosize: true, 
               title: 'Noise values',
-              paper_bgcolor: "rgb(137, 192, 174)",
-              plot_bgcolor: "rgb(137, 192, 174)",
+              paper_bgcolor: "rgb(43, 61, 50)",
+              plot_bgcolor: "rgb(43, 61, 50)",
+              font: {
+                color: 'rgb(153, 201, 160)',
+              },
+              xaxis: {
+                tickcolor: 'rgb(153, 201, 160)',
+                linecolor: 'rgb(153, 201, 160)',
+              },
+              yaxis: {
+                tickcolor: 'rgb(153, 201, 160)',
+                linecolor: 'rgb(153, 201, 160)',
+              }
             } }
             useResizeHandler={true}
           />

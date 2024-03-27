@@ -16,6 +16,8 @@ function Canvas(props) {
   const colorValuesRef = useRef(null);
 
   const axes = setPlotData(props.width);
+  const axesColor = 'rgb(153, 201, 160)';
+  const bgColor = 'rgb(43, 61, 50)';
 
   //const seed = 800123107341; //800123107341 //78294010625;
   //const colorValues = useRef(seed);
@@ -180,18 +182,18 @@ function Canvas(props) {
               height: props.height,
               autosize: true, 
               title: 'Noise values',
-              paper_bgcolor: "rgb(43, 61, 50)",
-              plot_bgcolor: "rgb(43, 61, 50)",
+              paper_bgcolor: bgColor,
+              plot_bgcolor: bgColor,
               font: {
-                color: 'rgb(153, 201, 160)',
+                color: axesColor,
               },
               xaxis: {
-                tickcolor: 'rgb(153, 201, 160)',
-                linecolor: 'rgb(153, 201, 160)',
+                tickcolor: axesColor,
+                linecolor: axesColor,
               },
               yaxis: {
-                tickcolor: 'rgb(153, 201, 160)',
-                linecolor: 'rgb(153, 201, 160)',
+                tickcolor: axesColor,
+                linecolor: axesColor,
               }
             } }
             useResizeHandler={true}

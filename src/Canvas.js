@@ -20,6 +20,7 @@ function Canvas(props) {
   //const seed = 800123107341; //800123107341 //78294010625;
   //const colorValues = useRef(seed);
 
+  const errorRef = useRef(null);
   const inputRef = useRef(null);
 
   const randomValue = Math.floor(Math.random()*999999999999)+100000;
@@ -141,12 +142,18 @@ function Canvas(props) {
   const generatePerlinKey = (e) => {
     if (e.key === 'Enter' && inputRef.current.value.length > 5) {
       draw();
+      errorRef.current.style.opacity = 0;
+    } else if (e.key === 'Enter' && inputRef.current.value.length <= 5) {
+      errorRef.current.style.opacity = 1;
     }
   }
 
   const generatePerlinButton = () => {
     if (inputRef.current.value.length > 5) {
       draw();
+      errorRef.current.style.opacity = 0;
+    } else if (inputRef.current.value.length <= 5) {
+      errorRef.current.style.opacity = 1;
     }
   }
   
@@ -188,28 +195,36 @@ function Canvas(props) {
       </div>
       <label className='seed'>
         Input a seed (number between 100 000 - 999 999 999 999)<br/>
-        <div>
-          <button
-            className='seed-input-button'
-            onClick={() => randomizeValue()}
-          >🔀</button>
-          <input 
-            ref={inputRef}
-            className='seed-input' 
-            type='text'
-            min='100000' 
-            max='999999999999'
-            minLength='6'
-            maxLength='12' 
-            placeholder='Enter a seed'
-            onInput={(e) => getValue(e)}
-            onKeyDown={(e) => generatePerlinKey(e)}
-          ></input>
-          <button 
-            className='seed-input-button'
-            onClick={() => generatePerlinButton()}
-          >Enter</button>
+
+        <div
+          ref={errorRef}
+          className='error'
+        >
+          Invalid input
         </div>
+
+        <div>
+        <button
+          className='seed-input-button'
+          onClick={() => randomizeValue()}
+        >🔀</button>
+        <input 
+          ref={inputRef}
+          className='seed-input' 
+          type='text'
+          min='100000' 
+          max='999999999999'
+          minLength='6'
+          maxLength='12' 
+          placeholder='Enter a seed'
+          onInput={(e) => getValue(e)}
+          onKeyDown={(e) => generatePerlinKey(e)}
+        ></input>
+        <button 
+          className='seed-input-button'
+          onClick={() => generatePerlinButton()}
+        >Enter</button>
+      </div>
       </label>
     </>
     );

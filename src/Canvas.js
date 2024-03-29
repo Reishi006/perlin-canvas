@@ -26,10 +26,9 @@ function Canvas(props) {
   const inputRef = useRef(null);
 
   const randomValue = Math.floor(Math.random()*999999999999)+100000;
-
-  const size = 32;
   //const [input, setInput] = useState(Math.floor(Math.random()*99999999)+100000);
   const [plotValues, setPlotValues] = useState(null);
+  const [size, setSize] = useState(32);
 
   const draw = () => {
     const canvas = canvasRef.current;
@@ -158,6 +157,34 @@ function Canvas(props) {
       errorRef.current.style.opacity = 1;
     }
   }
+
+  const handleSize = (e) => {
+    switch (e.target.value) {
+      case '0':
+        setSize(8);
+        break;
+      case '1':
+        setSize(16);
+        break;
+      case '2':
+        setSize(32);
+        break;
+      case '3':
+        setSize(64);
+        break;
+      case '4':
+        setSize(128);
+        break;
+      case '5':
+        setSize(256);
+        break;
+      case '6':
+        setSize(512);
+        break;
+      default:
+        return;
+    }
+  }
   
     return (
     <>
@@ -217,27 +244,39 @@ function Canvas(props) {
         </div>
 
         <div>
-        <button
-          className='seed-input-button'
-          onClick={() => randomizeValue()}
-        >🔀</button>
-        <input 
-          ref={inputRef}
-          className='seed-input' 
-          type='text'
-          min='100000' 
-          max='999999999999'
-          minLength='6'
-          maxLength='12' 
-          placeholder='Enter a seed'
-          onInput={(e) => getValue(e)}
-          onKeyDown={(e) => generatePerlinKey(e)}
+          <button
+            className='seed-input-button'
+            onClick={() => randomizeValue()}
+          >🔀</button>
+          <input 
+            ref={inputRef}
+            className='seed-input' 
+            type='text'
+            min='100000' 
+            max='999999999999'
+            minLength='6'
+            maxLength='12' 
+            placeholder='Enter a seed'
+            onInput={(e) => getValue(e)}
+            onKeyDown={(e) => generatePerlinKey(e)}
+          ></input>
+          <button 
+            className='seed-input-button'
+            onClick={() => generatePerlinButton()}
+          >Enter</button>
+        </div>
+        <input
+          className='seed-size'
+          type='range'
+          min='0'
+          max='6'
+          list='sizes'
+          onChange={(e) => handleSize(e)}
+          onMouseUp={() => generatePerlinButton()}
         ></input>
-        <button 
-          className='seed-input-button'
-          onClick={() => generatePerlinButton()}
-        >Enter</button>
-      </div>
+        <label
+          className='seed-size-label'
+        >x{size}</label>
       </div>
     </>
     );

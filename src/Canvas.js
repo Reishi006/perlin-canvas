@@ -20,13 +20,11 @@ function Canvas(props) {
   const bgColor = 'rgb(43, 61, 50)';
 
   //const seed = 800123107341; //800123107341 //78294010625;
-  //const colorValues = useRef(seed);
 
   const errorRef = useRef(null);
   const inputRef = useRef(null);
 
   const randomValue = Math.floor(Math.random()*999999999999)+100000;
-  //const [input, setInput] = useState(Math.floor(Math.random()*99999999)+100000);
   const [plotValues, setPlotValues] = useState(null);
   const [size, setSize] = useState(32);
 
@@ -37,9 +35,6 @@ function Canvas(props) {
     if (!imageDataRef.current) {
       imageDataRef.current = ctx.createImageData(props.width, props.height);
     }
-    //console.log(imageDataRef.current.data);
-
-    //console.log(inputRef.current.value);
     let imageData = imageDataRef.current;
     colorValuesRef.current = perlinNoise(inputRef.current.value, props.width, props.height, size);
     let colorValues = colorValuesRef.current;
@@ -107,9 +102,6 @@ function Canvas(props) {
 
       imageData.data[i + 3] = 255;
     }
-
-    //console.log(imageData.data.length);
-    //console.log(colorValues);
 
     ctx.putImageData(imageData, 0, 0);
 
@@ -265,6 +257,7 @@ function Canvas(props) {
             onClick={() => generatePerlinButton()}
           >Enter</button>
         </div>
+
         <input
           className='seed-size'
           type='range'
@@ -274,9 +267,10 @@ function Canvas(props) {
           onChange={(e) => handleSize(e)}
           onMouseUp={() => generatePerlinButton()}
         ></input>
+
         <label
           className='seed-size-label'
-        >x{size}</label>
+        >x{size/32}</label>
       </div>
     </>
     );

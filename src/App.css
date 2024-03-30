@@ -13,6 +13,29 @@ input:focus {
   outline: none;
 }
 
+input[type="range"] {
+  height: 15px;
+  cursor: pointer;
+
+  border: none;
+
+  background-color: rgb(43, 61, 50);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  height: 18px;
+  width: 18px;
+
+  background-color: rgb(153, 201, 160);
+}
+
+input[type='range'], input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+
+  border-radius:  15px;
+}
+
 .app-container {
   width: 100%;
   height: 100vh;

@@ -3,6 +3,8 @@ body, html {
   margin: 0;
 
   background-color: rgb(84, 84, 97);
+
+  user-select: none;
 }
 
 * {
@@ -15,18 +17,19 @@ input:focus {
 
 input[type="range"] {
   height: 15px;
-  cursor: pointer;
+
+  margin: .3em 0;
 
   border: none;
 
-  background-color: rgb(43, 61, 50);
+  cursor: pointer;
 }
 
 input[type="range"]::-webkit-slider-thumb {
   height: 18px;
   width: 18px;
 
-  background-color: rgb(153, 201, 160);
+  background-color: rgb(30, 84, 233);
 }
 
 input[type='range'], input[type='range']::-webkit-slider-thumb {

@@ -112,10 +112,14 @@ function Canvas(props) {
 
   }
 
-    useEffect(() => {
-      inputRef.current.value = randomValue;
-      draw();
-    }, []);
+  useEffect(() => {
+    inputRef.current.value = randomValue;
+    draw();
+  }, []);
+
+  useEffect(() => {
+    draw();
+  }, [size]);
 
   const randomizeValue = () => {
     let random = Math.floor(Math.random()*999999999999)+100000;
@@ -265,7 +269,6 @@ function Canvas(props) {
           max='6'
           list='sizes'
           onChange={(e) => handleSize(e)}
-          onMouseUp={() => generatePerlinButton()}
         ></input>
 
         <label

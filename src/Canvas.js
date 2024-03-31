@@ -26,7 +26,7 @@ function Canvas(props) {
 
   const randomValue = Math.floor(Math.random()*999999999999)+100000;
   const [plotValues, setPlotValues] = useState(null);
-  const [size, setSize] = useState(32);
+  const [size, setSize] = useState(64);
 
   const draw = () => {
     const canvas = canvasRef.current;
@@ -40,32 +40,7 @@ function Canvas(props) {
     let colorValues = colorValuesRef.current;
     setPlotValues(colorValues);
 
-    //console.log(colorValues);
-
     for (let i = 0; i < imageData.data.length; i += 4) {
-      /* imageData.data[i] = props.colorValues[i/4]*255;
-      imageData.data[i + 1] = 0 + ((props.colorValues[i/4]*255)/2);
-      imageData.data[i + 2] = props.colorValues[i/4]*255;
-      imageData.data[i + 3] = 255; */
-
-      /* if (props.colorValues[i/4] < 0.3) {
-        imageData.data[i] = 70;
-        imageData.data[i + 1] = 0;
-        imageData.data[i + 2] = 70;
-      } else if (props.colorValues[i/4] < 0.5 && props.colorValues[i/4] >= 0.3) {
-        imageData.data[i] = 100;
-        imageData.data[i + 1] = 0;
-        imageData.data[i + 2] = 100;
-      } else if (props.colorValues[i/4] >= 0.5 && props.colorValues[i/4] < 0.7) {
-        imageData.data[i] = 190;
-        imageData.data[i + 1] = 0;
-        imageData.data[i + 2] = 190;
-      } else if (props.colorValues[i/4] >= 0.7) {
-        imageData.data[i] = 255;
-        imageData.data[i + 1] = 0;
-        imageData.data[i + 2] = 255;
-      } */
-
       if (colorValues[i/4] <= 0.15) {
         imageData.data[i] = 20;
         imageData.data[i + 1] = 20;
@@ -265,6 +240,7 @@ function Canvas(props) {
         <input
           className='seed-size'
           type='range'
+          defaultValue={3}
           min='0'
           max='6'
           list='sizes'

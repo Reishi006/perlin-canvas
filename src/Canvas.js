@@ -28,6 +28,8 @@ function Canvas(props) {
   const [plotValues, setPlotValues] = useState(null);
   const [size, setSize] = useState(64);
 
+  const [plotWidth, setPlotWidth] = useState(700);
+
   const draw = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -87,9 +89,21 @@ function Canvas(props) {
 
   }
 
+  const handleResize = () => {
+    if (window.innerWidth <= 768) {
+      setPlotWidth(512);
+    } else {
+      setPlotWidth(700);
+    }
+  }
+
   useEffect(() => {
     inputRef.current.value = randomValue;
     draw();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
@@ -176,7 +190,7 @@ function Canvas(props) {
               },
             ]}
             layout={ {
-              width: 700,
+              width: plotWidth,
               height: props.height,
               autosize: true, 
               title: 'Noise values',

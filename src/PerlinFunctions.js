@@ -46,8 +46,6 @@ export const generateGradientVectors = (seed, width, height, size) => {
         }
     }
 
-    //console.log(gradientArr);
-
     return gradientArr;
 }
 
@@ -56,7 +54,7 @@ export const getDistanceVectors = (x, y, size) => {
 
     let point = [(x%size)/size, (y%size)/size];
 
-    //0 - topLeft, 1 - topRight ... (clockwise)
+    //0 - topLeft, 1 - topRight ... (clockwise corner choosing)
     distanceArr[0] = [0 - point[0], 0 - point[1]];
     distanceArr[1] = [1 - point[0], 0 - point[1]];
     distanceArr[2] = [1 - point[0], 1 - point[1]];

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef} from 'react';
 import Plot from 'react-plotly.js';
 
 import * as Perlin from './PerlinFunctions';
+import Input from './Input';
 import './App.css';
 
 const { 
@@ -218,53 +219,15 @@ function Canvas(props) {
             className='perlin-canvas'
         ></canvas>
       </div>
-      <div className='seed'>
-        Input a seed (number between 100 000 - 999 999 999 999)<br/>
-
-        <div
-          ref={errorRef}
-          className='error'
-        >
-          Invalid input
-        </div>
-
-        <div>
-          <button
-            className='seed-input-button'
-            onClick={() => randomizeValue()}
-          >🔀</button>
-          <input 
-            ref={inputRef}
-            className='seed-input' 
-            type='text'
-            min='100000' 
-            max='999999999999'
-            minLength='6'
-            maxLength='12' 
-            placeholder='Enter a seed'
-            onInput={(e) => getValue(e)}
-            onKeyDown={(e) => generatePerlinKey(e)}
-          ></input>
-          <button 
-            className='seed-input-button'
-            onClick={() => generatePerlinButton()}
-          >Enter</button>
-        </div>
-
-        <input
-          className='seed-size'
-          type='range'
-          defaultValue={3}
-          min='0'
-          max='6'
-          list='sizes'
-          onChange={(e) => handleSize(e)}
-        ></input>
-
-        <label
-          className='seed-size-label'
-        >x{size/32}</label>
-      </div>
+      <Input
+        randomizeValue={randomizeValue}
+        inputRef={inputRef}
+        getValue={getValue}
+        generatePerlinKey={generatePerlinKey}
+        generatePerlinButton={generatePerlinButton}
+        handleSize={handleSize}
+        size={size}
+      ></Input>
     </>
     );
 }

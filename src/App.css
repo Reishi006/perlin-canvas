@@ -126,6 +126,7 @@ input[type='range'], input[type='range']::-webkit-slider-thumb {
   .seed {
     width: 100%;
     margin: auto 0;
+    padding: .3em;
     position: sticky;
     bottom: 0;
 
@@ -135,7 +136,7 @@ input[type='range'], input[type='range']::-webkit-slider-thumb {
   }
 
   .seed-input, .seed-size {
-    width: 80%;
+    width: 60%;
   }
 
   .seed-input {
@@ -144,5 +145,9 @@ input[type='range'], input[type='range']::-webkit-slider-thumb {
 
   .seed-size {
     margin: none;
+  }
+
+  .seed-size-label {
+    margin: .3em;
   }
 }

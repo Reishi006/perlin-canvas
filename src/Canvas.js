@@ -145,6 +145,12 @@ function Canvas(props) {
   }
 
   const handleSize = (e) => {
+    if (inputRef.current.value < 99999) {
+      errorRef.current.style.opacity = 1;
+      return;
+    } else {
+      errorRef.current.style.opacity = 0;
+    }
     switch (e.target.value) {
       case '0':
         setSize(8);
@@ -220,6 +226,7 @@ function Canvas(props) {
         ></canvas>
       </div>
       <Input
+        errorRef={errorRef}
         randomizeValue={randomizeValue}
         inputRef={inputRef}
         getValue={getValue}
